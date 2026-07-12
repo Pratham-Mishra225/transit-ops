@@ -2,8 +2,14 @@ import { type NextRequest, NextResponse } from "next/server";
 import { isPrismaError, PrismaErrorCode } from "@/lib/prisma-errors";
 import { prisma } from "@/lib/prisma";
 import { createMaintenanceSchema } from "@/lib/validators/maintenance.schema";
+<<<<<<< Updated upstream
 import { requireAuthenticatedProfile, requireRole } from "@/lib/auth/access";
 import { ApplicationRole } from "@prisma/client";
+=======
+import { requirePermission } from "@/lib/auth/authorize";
+import { NextResponse } from "next/server";
+
+>>>>>>> Stashed changes
 
 // Opt out of static generation — this route requires a live DB connection.
 export const dynamic = "force-dynamic";
@@ -13,10 +19,15 @@ export const dynamic = "force-dynamic";
 // ---------------------------------------------------------------------------
 
 export async function GET() {
+<<<<<<< Updated upstream
   const context = await requireAuthenticatedProfile();
   if (context instanceof NextResponse) {
     return context;
   }
+=======
+  const authContext = await requirePermission("maintenance:read");
+  if (authContext instanceof NextResponse) return authContext;
+>>>>>>> Stashed changes
 
   try {
     const logs = await prisma.maintenanceLog.findMany({
@@ -42,10 +53,16 @@ export async function GET() {
 // ---------------------------------------------------------------------------
 
 export async function POST(request: NextRequest) {
+<<<<<<< Updated upstream
   const context = await requireRole(ApplicationRole.FLEET_MANAGER);
   if (context instanceof NextResponse) {
     return context;
   }
+=======
+  const authContext = await requirePermission("maintenance:create");
+  if (authContext instanceof NextResponse) return authContext;
+
+>>>>>>> Stashed changes
   let body: unknown;
   try {
     body = await request.json();

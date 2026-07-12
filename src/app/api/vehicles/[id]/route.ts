@@ -2,8 +2,14 @@ import { type NextRequest, NextResponse } from "next/server";
 import { isPrismaError, PrismaErrorCode } from "@/lib/prisma-errors";
 import { prisma } from "@/lib/prisma";
 import { updateVehicleSchema } from "@/lib/validators/vehicle.schema";
+<<<<<<< Updated upstream
 import { requireAuthenticatedProfile, requireRole } from "@/lib/auth/access";
 import { ApplicationRole } from "@prisma/client";
+=======
+import { requirePermission } from "@/lib/auth/authorize";
+import { NextResponse } from "next/server";
+
+>>>>>>> Stashed changes
 
 // Opt out of static generation — requires a live DB connection.
 export const dynamic = "force-dynamic";
@@ -19,10 +25,15 @@ export async function GET(
   _request: NextRequest,
   { params }: RouteContext,
 ) {
+<<<<<<< Updated upstream
   const context = await requireAuthenticatedProfile();
   if (context instanceof NextResponse) {
     return context;
   }
+=======
+  const authContext = await requirePermission("vehicle:read");
+  if (authContext instanceof NextResponse) return authContext;
+>>>>>>> Stashed changes
 
   const { id } = await params;
 
@@ -45,10 +56,15 @@ export async function PATCH(
   request: NextRequest,
   { params }: RouteContext,
 ) {
+<<<<<<< Updated upstream
   const context = await requireRole(ApplicationRole.FLEET_MANAGER);
   if (context instanceof NextResponse) {
     return context;
   }
+=======
+  const authContext = await requirePermission("vehicle:update");
+  if (authContext instanceof NextResponse) return authContext;
+>>>>>>> Stashed changes
 
   const { id } = await params;
 
@@ -97,10 +113,15 @@ export async function DELETE(
   _request: NextRequest,
   { params }: RouteContext,
 ) {
+<<<<<<< Updated upstream
   const context = await requireRole(ApplicationRole.FLEET_MANAGER);
   if (context instanceof NextResponse) {
     return context;
   }
+=======
+  const authContext = await requirePermission("vehicle:delete");
+  if (authContext instanceof NextResponse) return authContext;
+>>>>>>> Stashed changes
 
   const { id } = await params;
 
