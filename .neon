@@ -1,1 +1,10 @@
-{}
+{
+  "orgId": "org-bitter-snow-34511784",
+  "projectId": "curly-fire-76922008",
+  "_init": {
+    "features": [
+      "database",
+      "auth"
+    ]
+  }
+}
